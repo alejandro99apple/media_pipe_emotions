@@ -45,7 +45,23 @@ class FaceMeshMediaPipe:
         return self.mesh_points
 
 
+    def extract_eye_browns_points(self, face_points: list, face_image: np.ndarray) -> dict:  #Extrae los puntos de los ojos
+        if len(face_points) == 478:
+            rigth_eyebrow_final_x, rigth_eyebrow_final_y = face_points[46][1:]
+            rigth_eyebrow_center_x, rigth_eyebrow_center_y = face_points[52][1:]
+            rigth_eyebrow_start_x, rigth_eyebrow_start_y = face_points[55][1:]
 
+            left_eyebrow_final_x,  left_eyebrow_final_y = face_points[276][1:]
+            left_eyebrow_center_x, left_eyebrow_center_y = face_points[282][1:]
+            left_eyebrow_start_x,  left_eyebrow_start_y = face_points[285][1:]
+
+            cv2.circle(face_image, (rigth_eyebrow_final_x, rigth_eyebrow_final_y), 4, (0, 0, 255), -1)
+            cv2.circle(face_image, (rigth_eyebrow_center_x, rigth_eyebrow_center_y), 4, (0, 0, 255), -1)
+            cv2.circle(face_image, (rigth_eyebrow_start_x, rigth_eyebrow_start_y), 4, (0, 0, 255), -1)
+
+            cv2.circle(face_image, (left_eyebrow_final_x, left_eyebrow_final_y), 4, (0, 0, 255), -1)
+            cv2.circle(face_image, (left_eyebrow_center_x, left_eyebrow_center_y), 4, (0, 0, 255), -1)
+            cv2.circle(face_image, (left_eyebrow_start_x, left_eyebrow_start_y), 4, (0, 0, 255), -1)
 
     def main_process(self, face_image: np.ndarray) -> Tuple[dict, dict, dict, dict, str, np.ndarray]:  #Procesa la imagen y devuelve los puntos de los ojos, cejas, boca y nariz
         original_image = face_image.copy()  #Copia de la imagen original
@@ -55,4 +71,5 @@ class FaceMeshMediaPipe:
             return self.eye_points, self.eyebrown_points, self.mouth_points, self.nose_points, 'No face detected', original_image
         else:
             mesh_points = self.extract_face_mesh_points(face_image, face_mesh_info, viz=True)
+            self.extract_eye_browns_points(mesh_points, face_image)
             return self.eye_points, self.eyebrown_points, self.mouth_points, self.nose_points, 'Face detected', original_image
