@@ -7,5 +7,5 @@ class EmotionRecognitionSystem:
         self.face_mesh = FaceMeshMediaPipe()
 
     def video_stream_processing(self, face_image: np.ndarray):
-        eye_points,eyebrown_points,mouth_points,nose_points,control_process, original_image = self.face_mesh.main_process(face_image)
+        eye_points,eyebrow_points,mouth_points,nose_points,control_process, original_image = self.face_mesh.main_process(face_image, draw=True)
         print(control_process)
