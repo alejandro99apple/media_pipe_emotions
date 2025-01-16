@@ -50,46 +50,70 @@ class FaceMeshMediaPipe:
 
 
     def extract_eye_points(self, face_points: list, face_image: np.ndarray) -> dict:  #Extrae los puntos de los ojos
-        self.eye_points = {'rigth_eye': [], 'left_eye': []}
+        self.eye_points = {'right_eye': [], 'left_eye': [], 'left_eye_heigth': [], 'right_eye_heigth': []}
         if len(face_points) == 478:
 
-            #upper left eyelid
-            left_eye_1x, left_eye_1y = face_points[263][1:]
-            left_eye_2x, left_eye_2y = face_points[466][1:]
-            left_eye_3x, left_eye_3y = face_points[388][1:]
-            left_eye_4x, left_eye_4y = face_points[387][1:]
-            left_eye_5x, left_eye_5y = face_points[386][1:]
-            left_eye_6x, left_eye_6y = face_points[385][1:]
-            left_eye_7x, left_eye_7y = face_points[384][1:]
-            left_eye_8x, left_eye_8y = face_points[398][1:]
-            left_eye_9x, left_eye_9y = face_points[362][1:]
+            right_eye_index = [33, 246, 161, 160, 159, 158, 157, 173, 133]
+            left_eye_index = [263, 466, 388, 387, 386, 385, 384, 398, 362]
+            lef_eye_height_index = [159, 145]
+            right_eye_height_index = [386, 374]
+
+            def get_eye_points(index):
+                return [face_points[i][1:] for i in index]
+
+            right_eye_points = get_eye_points(right_eye_index)
+            left_eye_points = get_eye_points(left_eye_index)
+            left_eye_height_points = get_eye_points(lef_eye_height_index)
+            right_eye_height_points = get_eye_points(right_eye_height_index)
+
+            self.eye_points['right_eye'] = [point for point in right_eye_points]
+            self.eye_points['left_eye'] = [point for point in left_eye_points]
+            self.eye_points['left_eye_heigth'] = [point for point in left_eye_height_points]
+            self.eye_points['right_eye_heigth'] = [point for point in right_eye_height_points]
 
 
-            #upper rigth eyelid
-            rigth_eye_1x, rigth_eye_1y = face_points[33][1:]
-            rigth_eye_2x, rigth_eye_2y = face_points[246][1:]
-            rigth_eye_3x, rigth_eye_3y = face_points[161][1:]
-            rigth_eye_4x, rigth_eye_4y = face_points[160][1:]
-            rigth_eye_5x, rigth_eye_5y = face_points[159][1:]
-            rigth_eye_6x, rigth_eye_6y = face_points[158][1:]
-            rigth_eye_7x, rigth_eye_7y = face_points[157][1:]
-            rigth_eye_8x, rigth_eye_8y = face_points[173][1:]
-            rigth_eye_9x, rigth_eye_9y = face_points[133][1:]
-
-            self.eye_points['left_eye'].append([left_eye_1x, left_eye_1y, left_eye_2x, left_eye_2y, left_eye_3x, left_eye_3y, left_eye_4x, left_eye_4y, left_eye_5x, left_eye_5y, left_eye_6x, left_eye_6y, left_eye_7x, left_eye_7y, left_eye_8x, left_eye_8y, left_eye_9x, left_eye_9y])
-            self.eye_points['rigth_eye'].append([rigth_eye_1x, rigth_eye_1y, rigth_eye_2x, rigth_eye_2y, rigth_eye_3x, rigth_eye_3y, rigth_eye_4x, rigth_eye_4y, rigth_eye_5x, rigth_eye_5y, rigth_eye_6x, rigth_eye_6y, rigth_eye_7x, rigth_eye_7y, rigth_eye_8x, rigth_eye_8y, rigth_eye_9x, rigth_eye_9y])
-
+        else:
+            raise Exception(f'face mesh points len: {len(face_points)} != 478')
         return self.eye_points
 
 
     def extract_eye_brows_points(self, face_points: list, face_image: np.ndarray) -> dict:  #Extrae los puntos de las cejas
-        self.eyebrow_points = {'rigth_eyebrow': [], 'left_eyebrow': []}
+        self.eyebrow_points = {'right_eyebrow': [], 'left_eyebrow': [], 'distance_between_eyebrows': [], 'distance_right_eyebrow_eye': [], 'distance_left_eyebrow_eye': [], 'distance_left_forehead':[], 'distance_right_forehead':[]}
         if len(face_points) == 478:
-            rigth_eyebrow_1x, rigth_eyebrow_1y = face_points[46][1:]
-            rigth_eyebrow_2x, rigth_eyebrow_2y = face_points[53][1:]
-            rigth_eyebrow_3x, rigth_eyebrow_3y = face_points[52][1:]
-            rigth_eyebrow_4x, rigth_eyebrow_4y = face_points[65][1:]
-            rigth_eyebrow_5x, rigth_eyebrow_5y = face_points[55][1:]
+
+            right_eyebrow_index = [46, 53, 52, 65, 55]
+            left_eyebrow_index = [276, 283, 282, 295, 285]
+            distance_between_eyebrows_index = [55, 285]
+            distance_left_forehead_index = [296, 299]
+            distance_right_forehead_index = [66, 69]
+            right_eye_index = [65, 468]
+            left_eye_index = [295, 473]
+
+            def get_eye_brow_points(index):
+                return [face_points[i][1:] for i in index]
+
+
+            right_eyebrow_points = get_eye_brow_points(right_eyebrow_index)
+            left_eyebrow_points = get_eye_brow_points(left_eyebrow_index)
+            distance_between_eyebrows_points = get_eye_brow_points(distance_between_eyebrows_index)
+            distance_left_forehead_points = get_eye_brow_points(distance_left_forehead_index)
+            distance_right_forehead_points = get_eye_brow_points(distance_right_forehead_index)
+            right_eye_points = get_eye_brow_points(right_eye_index)
+            left_eye_points = get_eye_brow_points(left_eye_index)
+
+            self.eyebrow_points['right_eyebrow'] = [point for point in right_eyebrow_points]
+            self.eyebrow_points['left_eyebrow'] = [point for point in left_eyebrow_points]
+            self.eyebrow_points['distance_between_eyebrows'] = [point for point in distance_between_eyebrows_points]
+            self.eyebrow_points['distance_left_forehead'] = [point for point in distance_left_forehead_points]
+            self.eyebrow_points['distance_right_forehead'] = [point for point in distance_right_forehead_points]
+            self.eyebrow_points['distance_right_eyebrow_eye'] = [point for point in right_eye_points]
+            self.eyebrow_points['distance_left_eyebrow_eye'] = [point for point in left_eye_points]
+
+            right_eyebrow_1x, right_eyebrow_1y = face_points[46][1:]
+            right_eyebrow_2x, right_eyebrow_2y = face_points[53][1:]
+            right_eyebrow_3x, right_eyebrow_3y = face_points[52][1:]
+            right_eyebrow_4x, right_eyebrow_4y = face_points[65][1:]
+            right_eyebrow_5x, right_eyebrow_5y = face_points[55][1:]
 
             left_eyebrow_1x, left_eyebrow_1y = face_points[276][1:]
             left_eyebrow_2x, left_eyebrow_2y = face_points[283][1:]
@@ -97,22 +121,22 @@ class FaceMeshMediaPipe:
             left_eyebrow_4x, left_eyebrow_4y = face_points[295][1:]
             left_eyebrow_5x, left_eyebrow_5y = face_points[285][1:]
 
-            self.eyebrow_points['rigth_eyebrow'].append([rigth_eyebrow_1x, rigth_eyebrow_1y, rigth_eyebrow_2x, rigth_eyebrow_2y, rigth_eyebrow_3x, rigth_eyebrow_3y, rigth_eyebrow_4x, rigth_eyebrow_4y, rigth_eyebrow_5x, rigth_eyebrow_5y])
-            self.eyebrow_points['left_eyebrow'].append([left_eyebrow_1x, left_eyebrow_1y, left_eyebrow_2x, left_eyebrow_2y, left_eyebrow_3x, left_eyebrow_3y, left_eyebrow_4x, left_eyebrow_4y, left_eyebrow_5x, left_eyebrow_5y])
-
 
             #Visualización de los puntos BORRAR FACE IMAGE
-            cv2.circle(face_image, (rigth_eyebrow_1x, rigth_eyebrow_1y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (rigth_eyebrow_2x, rigth_eyebrow_2y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (rigth_eyebrow_3x, rigth_eyebrow_3y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (rigth_eyebrow_4x, rigth_eyebrow_4y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (rigth_eyebrow_5x, rigth_eyebrow_5y), 4, (0, 0, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_1x, right_eyebrow_1y), 4, (0, 0, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_2x, right_eyebrow_2y), 4, (0, 0, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_3x, right_eyebrow_3y), 4, (0, 0, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_4x, right_eyebrow_4y), 4, (0, 0, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_5x, right_eyebrow_5y), 4, (0, 0, 255), -1)
 
             cv2.circle(face_image, (left_eyebrow_1x, left_eyebrow_1y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (left_eyebrow_2x, left_eyebrow_2y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (left_eyebrow_3x, left_eyebrow_3y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (left_eyebrow_4x, left_eyebrow_4y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (left_eyebrow_5x, left_eyebrow_5y), 4, (0, 0, 255), -1)
+
+        else:
+            raise Exception(f'face mesh points len: {len(face_points)} != 478')
 
         return self.eyebrow_points
 
@@ -178,6 +202,10 @@ class FaceMeshMediaPipe:
             self.mouth_points['upper_mouth_contorn'].append([mouth_1x, mouth_1y, mouth_2x, mouth_2y, mouth_3x, mouth_3y, mouth_4x, mouth_4y, mouth_5x, mouth_5y, mouth_6x, mouth_6y, mouth_7x, mouth_7y, mouth_8x, mouth_8y, mouth_9x, mouth_9y, mouth_10x, mouth_10y])
             self.mouth_points['lower_mouth_contorn'].append([mouth_11x, mouth_11y, mouth_12x, mouth_12y, mouth_13x, mouth_13y, mouth_14x, mouth_14y, mouth_15x, mouth_15y, mouth_16x, mouth_16y, mouth_17x, mouth_17y, mouth_18x, mouth_18y, mouth_19x, mouth_19y, mouth_20x, mouth_20y])
             self.mouth_points['mouth_opening'].append([mouth_21x, mouth_21y, mouth_22x, mouth_22y])
+
+        else:
+            raise Exception(f'face mesh points len: {len(face_points)} != 478')
+        
         return self.mouth_points
 
     def extract_nose_points(self, face_points: list, face_image: np.ndarray) -> dict:  #Extrae los puntos de la nariz
@@ -214,17 +242,21 @@ class FaceMeshMediaPipe:
             cv2.circle(face_image, (nose_8x, nose_8y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (nose_9x, nose_9y), 4, (128, 0, 128), -1)
         
+        else:
+            raise Exception(f'face mesh points len: {len(face_points)} != 478')
+        
         return self.nose_points
 
 
 
 
-    def main_process(self, face_image: np.ndarray, draw:bool) -> Tuple[dict, dict, dict, dict, str, np.ndarray]:  #Procesa la imagen y devuelve los puntos de los ojos, cejas, boca y nariz
+    def main_process(self, face_image: np.ndarray, draw:bool) -> Tuple[dict, dict, dict, dict, bool, np.ndarray]:  #Procesa la imagen y devuelve los puntos de los ojos, cejas, boca y nariz
         original_image = face_image.copy()  #Copia de la imagen original
         fame_mesh_check, face_mesh_info = self.face_mesh_inference(face_image)  #Detección de puntos de la cara
 
         if fame_mesh_check is False:
-            return self.eye_points, self.eyebrow_points, self.mouth_points, self.nose_points, 'No face detected', original_image
+            self.__init__();
+            return self.eye_points, self.eyebrow_points, self.mouth_points, self.nose_points, False, original_image
         else:
             mesh_points = self.extract_face_mesh_points(face_image, face_mesh_info)
             if draw:
@@ -233,4 +265,4 @@ class FaceMeshMediaPipe:
             self.extract_eye_brows_points(mesh_points, face_image)
             self.extract_mouth_points(mesh_points, face_image)
             self.extract_nose_points(mesh_points, face_image)
-            return self.eye_points, self.eyebrow_points, self.mouth_points, self.nose_points, 'Face detected', original_image  
+            return self.eye_points, self.eyebrow_points, self.mouth_points, self.nose_points, True, original_image  

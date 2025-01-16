@@ -14,7 +14,7 @@ if __name__ == "__main__":
     while True:
         ret, frame = cap.read()
         if not ret: # If the frame is not read correctly,
-            break
+            break 
         process.video_stream_processing(frame)
         cv2.imshow("Emotion Recognition", frame)
         t = cv2.waitKey(5)
