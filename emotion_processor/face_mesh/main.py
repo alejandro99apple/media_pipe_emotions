@@ -50,26 +50,36 @@ class FaceMeshMediaPipe:
 
 
     def extract_eye_points(self, face_points: list, face_image: np.ndarray) -> dict:  #Extrae los puntos de los ojos
-        self.eye_points = {'right_eye': [], 'left_eye': [], 'left_eye_heigth': [], 'right_eye_heigth': []}
+        self.eye_points = {'right_eye': [], 'left_eye': [], 'left_eye_distances': [], 'right_eye_distances': []}
         if len(face_points) == 478:
 
             right_eye_index = [33, 246, 161, 160, 159, 158, 157, 173, 133]
             left_eye_index = [263, 466, 388, 387, 386, 385, 384, 398, 362]
-            lef_eye_height_index = [159, 145]
-            right_eye_height_index = [386, 374]
+            lef_eye_distances_index = [159, 145, 27, 230]
+            right_eye_distances_index = [386, 374, 257, 450]
 
             def get_eye_points(index):
                 return [face_points[i][1:] for i in index]
 
             right_eye_points = get_eye_points(right_eye_index)
             left_eye_points = get_eye_points(left_eye_index)
-            left_eye_height_points = get_eye_points(lef_eye_height_index)
-            right_eye_height_points = get_eye_points(right_eye_height_index)
+            left_eye_distances_points = get_eye_points(lef_eye_distances_index)
+            right_eye_distances_points = get_eye_points(right_eye_distances_index)
 
             self.eye_points['right_eye'] = [point for point in right_eye_points]
             self.eye_points['left_eye'] = [point for point in left_eye_points]
-            self.eye_points['left_eye_heigth'] = [point for point in left_eye_height_points]
-            self.eye_points['right_eye_heigth'] = [point for point in right_eye_height_points]
+            self.eye_points['left_eye_distances'] = [point for point in left_eye_distances_points]
+            self.eye_points['right_eye_distances'] = [point for point in right_eye_distances_points]
+
+            right_eyebrow_1x, right_eyebrow_1y = face_points[386][1:]
+            right_eyebrow_2x, right_eyebrow_2y = face_points[374][1:]
+            right_eyebrow_3x, right_eyebrow_3y = face_points[257][1:]
+            right_eyebrow_4x, right_eyebrow_4y = face_points[450][1:]
+
+            cv2.circle(face_image, (right_eyebrow_1x, right_eyebrow_1y), 4, (255, 0, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_2x, right_eyebrow_2y), 4, (255, 0, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_3x, right_eyebrow_3y), 4, (255, 0, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_4x, right_eyebrow_4y), 4, (255, 0, 255), -1)
 
 
         else:

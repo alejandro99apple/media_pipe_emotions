@@ -33,15 +33,16 @@ class EyesPointsProcessing:
         return z[0] * -1000 # El coeficiente 'a' del polinomio y = ax^2 + bx + c
     
     def calculate_distances(self, eyes_points):
-        left_eye_height = np.linalg.norm(np.array(eyes_points['left_eye_heigth'][0]) - np.array(eyes_points['left_eye_heigth'][1]))
-        right_eye_height = np.linalg.norm(np.array(eyes_points['right_eye_heigth'][0]) - np.array(eyes_points['right_eye_heigth'][1]))
-        return left_eye_height, right_eye_height
+        left_eye_short_distance = np.linalg.norm(np.array(eyes_points['left_eye_distances'][0]) - np.array(eyes_points['left_eye_distances'][1]))
+        left_eye_big_distance = np.linalg.norm(np.array(eyes_points['left_eye_distances'][2]) - np.array(eyes_points['left_eye_distances'][3]))
+        right_eye_short_distance = np.linalg.norm(np.array(eyes_points['right_eye_distances'][0]) - np.array(eyes_points['right_eye_distances'][1]))
+        right_eye_big_distance = np.linalg.norm(np.array(eyes_points['right_eye_distances'][2]) - np.array(eyes_points['right_eye_distances'][3]))
+        return left_eye_short_distance, right_eye_short_distance, left_eye_big_distance, right_eye_big_distance
         
 
 
     def main(self, eyes_points: dict):
         self.eyes['right_eyebrow_arch'] = self.claculate_eye_arch(eyes_points['right_eye'])
         self.eyes['left_eyebrow_arch'] = self.claculate_eye_arch(eyes_points['left_eye'])
-        self.eyes['left_eye_heigth'], self.eyes['right_eye_heigth'] = self.calculate_distances(eyes_points)
-        print(self.eyes['left_eye_heigth'])
+        self.eyes['left_eye_short_distance'], self.eyes['right_eye_short_distance'], self.eyes['left_eye_big_distance'], self.eyes['right_eye_big_distance'] = self.calculate_distances(eyes_points)
         return self.eyes
