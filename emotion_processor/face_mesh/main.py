@@ -153,47 +153,49 @@ class FaceMeshMediaPipe:
 
 
     def extract_mouth_points(self, face_points: list, face_image: np.ndarray) -> dict:  #Extrae los puntos de la boca
-        self.mouth_points = {'upper_mouth_contorn': [],'lower_mouth_contorn': [], 'mouth_opening': []}
+        self.mouth_points = {'upper_lip': [],'lower_lip': [], 'distances': []}
 
         if len(face_points) == 478:
 
+            upper_lip_index = [78, 191, 80, 81, 82, 13, 312, 311, 310, 415, 308]
+            lower_lip_index = [78, 95, 88, 178, 87, 14, 317, 402, 318, 324, 308]
+            mouth_opening_distance_index = [13, 14, 17, 200]
+
+            def get_lips_points(index):
+                return [face_points[i][1:] for i in index]
+            
+            upper_lip_points = get_lips_points(upper_lip_index)
+            lower_lip_points = get_lips_points(lower_lip_index)
+            mouth_opening_distance_points = get_lips_points(mouth_opening_distance_index)
+
+
+            self.mouth_points['upper_lip'] = [point for point in upper_lip_points]
+            self.mouth_points['lower_lip'] = [point for point in lower_lip_points]
+            self.mouth_points['distances'] = [point for point in mouth_opening_distance_points]
+
+
             #upper mouth contorn
-            mouth_1x, mouth_1y = face_points[61][1:]
-            mouth_2x, mouth_2y = face_points[185][1:]
-            mouth_3x, mouth_3y = face_points[40][1:]
-            mouth_4x, mouth_4y = face_points[39][1:]
-            mouth_5x, mouth_5y = face_points[37][1:]
-            mouth_6x, mouth_6y = face_points[0][1:]
-            mouth_7x, mouth_7y = face_points[267][1:]
-            mouth_8x, mouth_8y = face_points[269][1:]
-            mouth_9x, mouth_9y = face_points[270][1:]
-            mouth_10x, mouth_10y = face_points[409][1:]
+            mouth_1x, mouth_1y = face_points[78][1:]
+            mouth_2x, mouth_2y = face_points[80][1:]
+            mouth_3x, mouth_3y = face_points[13][1:]
+            mouth_9x, mouth_9y = face_points[310][1:]
+            mouth_10x, mouth_10y = face_points[308][1:]
 
             #lower mouth contorn
-            mouth_11x, mouth_11y= face_points[146][1:]
-            mouth_12x, mouth_12y = face_points[91][1:]
-            mouth_13x, mouth_13y = face_points[181][1:]
-            mouth_14x, mouth_14y= face_points[84][1:]
-            mouth_15x, mouth_15y = face_points[17][1:]
-            mouth_16x, mouth_16y = face_points[314][1:]
-            mouth_17x, mouth_17y= face_points[405][1:]
-            mouth_18x, mouth_18y = face_points[321][1:]
-            mouth_19x, mouth_19y = face_points[375][1:]
-            mouth_20x, mouth_20y = face_points[291][1:]
+            mouth_11x, mouth_11y= face_points[95][1:]
+            mouth_12x, mouth_12y = face_points[178][1:]
+            mouth_13x, mouth_13y = face_points[14][1:]
+            mouth_14x, mouth_14y= face_points[402][1:]
+            mouth_15x, mouth_15y = face_points[324][1:]
 
-            #mouth opening
-            mouth_21x, mouth_21y = face_points[13][1:]
-            mouth_22x, mouth_22y = face_points[14][1:]
-
+            mouth_reference_1x, mouth_reference_1y = face_points[17][1:]
+            mouth_reference_2x, mouth_reference_2y = face_points[200][1:]
+            mouth_opening_1x, mouth_opening_1y = face_points[13][1:]
+            mouth_opening_2x, mouth_opening_2y = face_points[14][1:]
 
             cv2.circle(face_image, (mouth_1x, mouth_1y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (mouth_2x, mouth_2y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (mouth_3x, mouth_3y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_4x, mouth_4y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_5x, mouth_5y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_6x, mouth_6y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_7x, mouth_7y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_8x, mouth_8y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (mouth_9x, mouth_9y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (mouth_10x, mouth_10y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (mouth_11x, mouth_11y), 4, (0, 0, 255), -1)
@@ -201,17 +203,11 @@ class FaceMeshMediaPipe:
             cv2.circle(face_image, (mouth_13x, mouth_13y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (mouth_14x, mouth_14y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (mouth_15x, mouth_15y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_16x, mouth_16y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_17x, mouth_17y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_18x, mouth_18y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_19x, mouth_19y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_20x, mouth_20y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (mouth_21x, mouth_21y), 4, (0, 144, 255), -1)
-            cv2.circle(face_image, (mouth_22x, mouth_22y), 4, (0, 144, 255), -1)
+            cv2.circle(face_image, (mouth_reference_1x, mouth_reference_1y), 4, (128, 0, 128), -1)
+            cv2.circle(face_image, (mouth_reference_2x, mouth_reference_2y), 4, (128, 0, 128), -1)
+            cv2.circle(face_image, (mouth_opening_1x, mouth_opening_1y), 4, (0, 100, 128), -1)
+            cv2.circle(face_image, (mouth_opening_2x, mouth_opening_2y), 4, (0, 100, 128), -1)
 
-            self.mouth_points['upper_mouth_contorn'].append([mouth_1x, mouth_1y, mouth_2x, mouth_2y, mouth_3x, mouth_3y, mouth_4x, mouth_4y, mouth_5x, mouth_5y, mouth_6x, mouth_6y, mouth_7x, mouth_7y, mouth_8x, mouth_8y, mouth_9x, mouth_9y, mouth_10x, mouth_10y])
-            self.mouth_points['lower_mouth_contorn'].append([mouth_11x, mouth_11y, mouth_12x, mouth_12y, mouth_13x, mouth_13y, mouth_14x, mouth_14y, mouth_15x, mouth_15y, mouth_16x, mouth_16y, mouth_17x, mouth_17y, mouth_18x, mouth_18y, mouth_19x, mouth_19y, mouth_20x, mouth_20y])
-            self.mouth_points['mouth_opening'].append([mouth_21x, mouth_21y, mouth_22x, mouth_22y])
 
         else:
             raise Exception(f'face mesh points len: {len(face_points)} != 478')
@@ -222,35 +218,26 @@ class FaceMeshMediaPipe:
         self.nose_points = {'left_side': [],'right_side': [], 'reference': []}
         if len(face_points) == 478:
 
+            nose_distances_index = [0, 13, 2, 164]
+
+            def get_nose_points(index):
+                return [face_points[i][1:] for i in index]
+            
+            nose_distances_points = get_nose_points(nose_distances_index)
+
+            self.nose_points['distances'] = [point for point in nose_distances_points]
+
             #left side nose
-            nose_1x, nose_1y = face_points[64][1:]
-            nose_2x, nose_2y = face_points[242][1:]
-            nose_3x, nose_3y = face_points[237][1:]
-            nose_4x, nose_4y = face_points[236][1:]
-
-            #right side nose
-            nose_5x, nose_5y = face_points[294][1:]
-            nose_6x, nose_6y = face_points[462][1:]
-            nose_7x, nose_7y = face_points[457][1:]
-            nose_8x, nose_8y = face_points[456][1:]
-
-            #reference point
-            nose_9x, nose_9y = face_points[9][1:]
-
-            self.nose_points['left_side'].append([nose_1x, nose_1y, nose_2x, nose_2y, nose_3x, nose_3y, nose_4x, nose_4y])
-            self.nose_points['right_side'].append([nose_5x, nose_5y, nose_6x, nose_6y, nose_7x, nose_7y, nose_8x, nose_8y])
-            self.nose_points['reference'].append([nose_9x, nose_9y])    
+            nose_1x, nose_1y = face_points[0][1:]
+            nose_2x, nose_2y = face_points[13][1:]
+            nose_3x, nose_3y = face_points[2][1:]
+            nose_4x, nose_4y = face_points[164][1:]
 
 
             cv2.circle(face_image, (nose_1x, nose_1y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (nose_2x, nose_2y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (nose_3x, nose_3y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (nose_4x, nose_4y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (nose_5x, nose_5y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (nose_6x, nose_6y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (nose_7x, nose_7y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (nose_8x, nose_8y), 4, (0, 0, 255), -1)
-            cv2.circle(face_image, (nose_9x, nose_9y), 4, (128, 0, 128), -1)
         
         else:
             raise Exception(f'face mesh points len: {len(face_points)} != 478')
