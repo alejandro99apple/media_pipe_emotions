@@ -264,10 +264,12 @@ class FaceMeshMediaPipe:
             return self.eye_points, self.eyebrow_points, self.mouth_points, self.nose_points, False, original_image
         else:
             mesh_points = self.extract_face_mesh_points(face_image, face_mesh_info)
-            if draw:
-                self.draw_face_mesh(face_image, face_mesh_info, (255, 255, 0))
             self.extract_eye_points(mesh_points, face_image)
             self.extract_eye_brows_points(mesh_points, face_image)
             self.extract_mouth_points(mesh_points, face_image)
             self.extract_nose_points(mesh_points, face_image)
-            return self.eye_points, self.eyebrow_points, self.mouth_points, self.nose_points, True, original_image  
+            if draw:
+                self.draw_face_mesh(face_image, face_mesh_info, (255, 255, 0))
+                return self.eye_points, self.eyebrow_points, self.mouth_points, self.nose_points, True, face_image  
+            else:
+                return self.eye_points, self.eyebrow_points, self.mouth_points, self.nose_points, True, original_image 

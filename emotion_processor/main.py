@@ -14,12 +14,14 @@ class EmotionRecognitionSystem:
         self.emotions_visualization = EmotionsVisualization()
 
     def video_stream_processing(self, face_image: np.ndarray):
-        eye_points,eyebrow_points,mouth_points,nose_points,control_process, original_image = self.face_mesh.main_process(face_image, draw=True)
+        eye_points, eyebrow_points, mouth_points, nose_points, control_process, original_image = self.face_mesh.main_process(face_image, draw=True)
         
         if control_process:
             processed_features = self.data_processing.main(eyebrow_points, eye_points, mouth_points, nose_points)
             emotions = self.emotion_recognition.recognize_emotion(processed_features)
+            print(emotions)
             draw_emotions = self.emotions_visualization.main(emotions, original_image)
+
             return draw_emotions
         else:
             Exception(f'No face Mesh')
