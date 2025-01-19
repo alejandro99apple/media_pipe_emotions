@@ -11,7 +11,5 @@ class NosePointsProcessing:
         return botton_distance, top_distance
 
     def main(self,nose_points: dict):
-
         self.nose['topdistance'], self.nose['botton_distance'] = self.calculate_distances(nose_points)
-        print(self.nose)
         return self.nose

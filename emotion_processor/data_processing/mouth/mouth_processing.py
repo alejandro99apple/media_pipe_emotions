@@ -37,12 +37,13 @@ class MouthPointsProcessing:
 
     def calculate_distances(self, mouth_points):
         mouth_opening_distance = np.linalg.norm(np.array(mouth_points['distances'][0]) - np.array(mouth_points['distances'][1]))
-        mouth_reference_distance = np.linalg.norm(np.array(mouth_points['distances'][2]) - np.array(mouth_points['distances'][3]))
-        return mouth_opening_distance, mouth_reference_distance
+        mouth_horizontal_distance = np.linalg.norm(np.array(mouth_points['distances'][2]) - np.array(mouth_points['distances'][3]))
+        mouth_reference_distance = np.linalg.norm(np.array(mouth_points['distances'][4]) - np.array(mouth_points['distances'][5]))
+        return mouth_opening_distance, mouth_horizontal_distance, mouth_reference_distance
         
 
     def main(self, mouth_points: dict):
         self.mouth['upper_lip_arch'] = self.claculate_lip_arch(mouth_points['upper_lip'])
         self.mouth['lower_lip_arch'] = self.claculate_lip_arch(mouth_points['lower_lip'])
-        self.mouth['mouth_opening_distance'], self.mouth['mouth_reference_distance'] = self.calculate_distances(mouth_points)
+        self.mouth['mouth_opening_distance'], self.mouth['mouth_horizontal_distance'], self.mouth['mouth_reference_distance'] = self.calculate_distances(mouth_points)
         return self.mouth

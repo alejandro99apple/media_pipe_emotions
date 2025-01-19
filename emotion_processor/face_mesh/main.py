@@ -124,6 +124,10 @@ class FaceMeshMediaPipe:
             right_eyebrow_3x, right_eyebrow_3y = face_points[52][1:]
             right_eyebrow_4x, right_eyebrow_4y = face_points[65][1:]
             right_eyebrow_5x, right_eyebrow_5y = face_points[55][1:]
+            right_eyebrow_6x, right_eyebrow_6y = face_points[66][1:]
+            right_eyebrow_7x, right_eyebrow_7y = face_points[69][1:]
+            right_eyebrow_8x, right_eyebrow_8y = face_points[65][1:]
+            right_eyebrow_9x, right_eyebrow_9y = face_points[468][1:]
 
             left_eyebrow_1x, left_eyebrow_1y = face_points[276][1:]
             left_eyebrow_2x, left_eyebrow_2y = face_points[283][1:]
@@ -138,6 +142,10 @@ class FaceMeshMediaPipe:
             cv2.circle(face_image, (right_eyebrow_3x, right_eyebrow_3y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (right_eyebrow_4x, right_eyebrow_4y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (right_eyebrow_5x, right_eyebrow_5y), 4, (0, 0, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_6x, right_eyebrow_6y), 4, (0, 128, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_7x, right_eyebrow_7y), 4, (0, 128, 255), -1)
+            cv2.circle(face_image, (right_eyebrow_8x, right_eyebrow_8y), 4, (0, 128, 128), -1)
+            cv2.circle(face_image, (right_eyebrow_9x, right_eyebrow_9y), 4, (0, 128, 128), -1)
 
             cv2.circle(face_image, (left_eyebrow_1x, left_eyebrow_1y), 4, (0, 0, 255), -1)
             cv2.circle(face_image, (left_eyebrow_2x, left_eyebrow_2y), 4, (0, 0, 255), -1)
@@ -159,7 +167,7 @@ class FaceMeshMediaPipe:
 
             upper_lip_index = [78, 191, 80, 81, 82, 13, 312, 311, 310, 415, 308]
             lower_lip_index = [78, 95, 88, 178, 87, 14, 317, 402, 318, 324, 308]
-            mouth_opening_distance_index = [13, 14, 17, 200]
+            mouth_opening_distance_index = [13, 14, 78, 308, 17, 200]
 
             def get_lips_points(index):
                 return [face_points[i][1:] for i in index]

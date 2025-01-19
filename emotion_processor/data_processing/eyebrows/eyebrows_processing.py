@@ -49,3 +49,4 @@ class EyebrowsPointsProcessing:
         self.eyebrows['right_eyebrow_arch'] = self.claculate_eyebrow_arch(eyebrows_points['right_eyebrow'])
         self.eyebrows['left_eyebrow_arch'] = self.claculate_eyebrow_arch(eyebrows_points['left_eyebrow'])
         self.eyebrows['distance_between_eyebrows'], self.eyebrows['distance_right_eyebrow_eye'], self.eyebrows['distance_left_eyebrow_eye'], self.eyebrows['distance_right_forehead'], self.eyebrows['distance_left_forehead'] = self.calculate_distances(eyebrows_points)
+        return self.eyebrows
