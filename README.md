@@ -1,7 +1,5 @@
-# Face_Detection Using MediaPipe
-
-Link: https://alejandro99apple.github.io/Face_Detection
-
+# Face_Detection Using MediaPipe OpenCV and Python
+## This app detects three types of emotions (happiness, sadness and surprise) based on facial gestures.
 
 <table>
 <tr>
